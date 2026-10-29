@@ -2,6 +2,8 @@
 
 A beginner-friendly Java mini project for PCP CIE, PICT. One Spring Boot application handles account registration, login, simulated top-ups, transfers, and transaction history. The browser interface uses plain HTML, CSS and Thymeleaf. There is no JavaScript framework.
 
+**Integration status:** The six available modules are assembled on `integration/wallet-assembly`. Ayaan's API and response classes are still pending, so this branch is not expected to compile yet. See [the integration checklist](docs/INTEGRATION_STATUS.md) before running the complete application or merging into `main`.
+
 ## Run the project
 
 1. Install a **JDK 17 or newer** and check `java -version`. A JRE alone is not enough to compile the project. Set `JAVA_HOME` to your JDK if needed.
@@ -86,11 +88,11 @@ All six members: Class **SY10**, Batch **E10**.
 | 23210 | Ayaan Shaikh | REST API, response DTOs and validation responses |
 | 23215 | Charu Singla | Java MVC controllers and both Java integration test classes |
 
-Frontend HTML, CSS and UI screenshots are a separate coordinator package for Arnav Patidar. No frontend resources count toward the six backend assignments. The current split and upload sequence are documented in CONTRIBUTING.md and delivery/member-handoff/START_HERE.md. These are ownership assignments; update the report to match each member's actual work and Git commits before submitting.
+Frontend HTML, CSS and UI screenshots are a separate coordinator package for Arnav Patidar. No frontend resources count toward the six backend assignments. The current split and upload sequence are documented in CONTRIBUTING.md, and the assembly status is in docs/INTEGRATION_STATUS.md. These are ownership assignments; update the report to match each member's actual work and Git commits before submitting.
 
 ## Report and submission
 
-The filled Word report is distributed separately as `report/PCP_CIE_Digital_Wallet_Report.docx`; the individual code archives omit it. Its earlier contribution table should be updated to the current backend division before submission. It follows the supplied PICT template and includes the team, database design, API summary, verified test outcomes and actual application screenshots. Add your final GitHub URL and project number, and confirm the contribution descriptions before submission. Repository URL: **to be added after you create the GitHub repository**.
+The filled Word report is distributed separately as `report/PCP_CIE_Digital_Wallet_Report.docx`; the individual code archives omit it. Its earlier contribution table should be updated to the current backend division before submission. It follows the supplied PICT template and includes the team, database design, API summary, verified test outcomes and actual application screenshots. Add your final GitHub URL and project number, and confirm the contribution descriptions before submission. Repository URL: [nahArnav/PCP_Mini_Project](https://github.com/nahArnav/PCP_Mini_Project).
 
 ## References
 
