@@ -6,25 +6,66 @@ A beginner-friendly Java mini project for PCP CIE, PICT. One Spring Boot applica
 
 ## Run the project
 
-1. Install a **JDK 17 or newer** and check `java -version`. A JRE alone is not enough to compile the project. Set `JAVA_HOME` to your JDK if needed.
-2. Open this folder in IntelliJ IDEA, Eclipse or VS Code as a Maven project. Let Maven download dependencies (internet is needed on the first run).
-3. In a terminal inside this folder, run:
+Requires a **JDK 17 or newer** and Git. A JRE alone cannot compile the project. You do not need to install Maven or MySQL. Internet is needed on the first run so the Maven wrapper can download Maven 3.9.11 and the project dependencies.
 
-   ```sh
-   ./mvnw spring-boot:run
-   ```
+### 1. Get the code
 
-   Windows PowerShell:
+For a first-time download, run:
 
-   ```powershell
-   .\mvnw.cmd spring-boot:run
-   ```
+```sh
+git clone https://github.com/nahArnav/PCP_Mini_Project.git
+cd PCP_Mini_Project
+```
 
-4. Open **http://localhost:8080**. Create two accounts with different email addresses. Sign in to one, add demo funds, then transfer to the other account's email. Use a separate browser profile for the second account if you want both open at once.
+If you already have the repository, open a terminal inside that existing project folder instead. Use `git pull --ff-only` on a clean `main` checkout to get the latest merged version.
 
-You do not need to install Maven or MySQL. The Maven wrapper downloads Maven 3.9.11. H2 stores data in `data/wallet.mv.db`, created automatically. Always run from the project root so the same database is used. Stop with Ctrl+C. To reset your own demo, stop the app and delete the `data` folder; that permanently deletes its local accounts and history.
+### 2. Start on macOS or Linux
 
-If port 8080 is busy: `./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8081`. The app binds to loopback for a local demonstration.
+Run these commands from the project root, where `pom.xml` is located:
+
+```sh
+java -version
+chmod +x mvnw
+./mvnw spring-boot:run
+```
+
+If macOS says it cannot locate Java, but you already installed `openjdk@17` using Homebrew, select that JDK for the current terminal and start again:
+
+```sh
+export JAVA_HOME="$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home"
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+./mvnw spring-boot:run
+```
+
+### 2. Start on Windows PowerShell
+
+With JDK 17 or newer available in your terminal, run from the project root:
+
+```powershell
+java -version
+.\mvnw.cmd spring-boot:run
+```
+
+### 3. Open the wallet and stop the server
+
+Open **[http://localhost:8080](http://localhost:8080)** after the terminal reports that `DigitalWalletApplication` has started. Create two accounts with different email addresses. Sign in to one, add demo funds, then transfer to the other account's email. Use a separate browser profile for the second account if you want both open at once.
+
+Keep the server terminal open. Press **Ctrl+C** in it to stop the application. H2 stores data in `data/wallet.mv.db`, created automatically, so accounts and history survive restarts. Always start from the same project root to use the same database. To reset your own demo, stop the app and delete the `data` folder; that permanently deletes its local accounts and history.
+
+If port 8080 is busy, start on port 8081 instead:
+
+```sh
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+```
+
+Windows PowerShell:
+
+```powershell
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--server.port=8081"
+```
+
+Then open **http://localhost:8081**. The app binds to loopback for a local demonstration.
 
 ## What works
 
@@ -66,10 +107,21 @@ Read [the class and viva guide](docs/CLASS_GUIDE.md), [the API guide](docs/API.m
 
 ## Test and package
 
+Stop any running copy of this project first. From the project root, run all 19 tests and build the executable JAR:
+
 ```sh
-./mvnw verify
+./mvnw clean verify
 java -jar target/digital-wallet-1.0.0.jar
 ```
+
+Windows PowerShell:
+
+```powershell
+.\mvnw.cmd clean verify
+java -jar target/digital-wallet-1.0.0.jar
+```
+
+The second command starts the packaged application at **http://localhost:8080**. Press **Ctrl+C** to stop it.
 
 The tests cover registration, password hashing, transfers, failed attempts, money precision, limits, rollback, concurrent operations, authorization, CSRF, JSON validation and browser form rendering. `WalletServiceTest` tests business rules; `WalletHttpTest` sends real HTTP requests through the running application. To demonstrate API calls and automatically check a full two-account flow while the app is running, use `python3 scripts/demo_api.py` (Python 3 standard library only).
 
