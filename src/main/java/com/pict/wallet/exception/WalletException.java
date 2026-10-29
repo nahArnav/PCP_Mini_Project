@@ -1,0 +1,14 @@
+package com.pict.wallet.exception;
+
+import org.springframework.http.HttpStatus;
+
+public class WalletException extends RuntimeException {
+    private final HttpStatus status;
+
+    public WalletException(HttpStatus status, String message) {
+        super(message);
+        this.status = status;
+    }
+
+    public HttpStatus getStatus() { return status; }
+}
