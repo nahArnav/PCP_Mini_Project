@@ -2,7 +2,7 @@
 
 A beginner-friendly Java mini project for PCP CIE, PICT. One Spring Boot application handles account registration, login, simulated top-ups, transfers, and transaction history. The browser interface uses plain HTML, CSS and Thymeleaf. There is no JavaScript framework.
 
-**Integration status:** The six available modules are assembled on `integration/wallet-assembly`. Ayaan's API and response classes are still pending, so this branch is not expected to compile yet. See [the integration checklist](docs/INTEGRATION_STATUS.md) before running the complete application or merging into `main`.
+**Build status:** All six backend modules and the frontend are assembled. A clean Maven build passes all 19 tests and packages the runnable application. See [the integration checklist](docs/INTEGRATION_STATUS.md) for the merged module revisions and [verification results](docs/TEST_RESULTS.md) for test details.
 
 ## Run the project
 

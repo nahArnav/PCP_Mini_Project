@@ -1,6 +1,6 @@
 # Wallet integration checklist
 
-Checked on 30 October 2026. This branch assembles the available modules while keeping their original authored commits and merge history.
+Verified locally on 30 October 2026. All six backend modules and the separate frontend module are assembled, with their original authored commits preserved through normal merges.
 
 ## Merged modules
 
@@ -12,34 +12,27 @@ Checked on 30 October 2026. This branch assembles the available modules while ke
 | backend/wallet-patidar | f783cb838890 | Wallet service and amount validation |
 | frontend/pages-patidar | e6fb6117e4c1 | HTML templates, CSS and screenshots |
 | backend/controllers-tests-charu | afe45752db22 | Java MVC controllers and integration tests |
+| 23210_ayaan_backend | b5954f8 | REST API, response DTOs, exception advice and API demonstration |
 
-All six merges completed without conflicts. The redundant `02_Arnav_Sankapal_23206_Backend/` handoff directory was removed after confirming the correct project files exist at the repository root. The root Maven wrapper is executable again. Application Java code was not changed by this cleanup.
+Ayaan's final upload places all six files at the correct repository paths: four Java classes, docs/API.md and scripts/demo_api.py. No folder correction was needed for this upload. His files match the prepared module, and all 21 main Java classes and both test classes match the complete prepared project.
 
-## Pending module
+The latest main history at 25fcae9 was merged into the assembly before Ayaan's module. Those earlier upload/delete commits left no net file changes relative to the initial commit. All module merges completed without conflicts.
 
-Ayaan's `23210_ayaan_backend` branch currently points to the initial commit and contains only README.md. It must add these root-level Java files:
+The previous integration cleanup removed the redundant 02_Arnav_Sankapal_23206_Backend handoff directory after checking its root-level copies, and restored the executable Maven wrapper. No teammate's application Java code was changed during assembly or cleanup.
 
-- src/main/java/com/pict/wallet/controller/WalletApiController.java
-- src/main/java/com/pict/wallet/dto/WalletResponse.java
-- src/main/java/com/pict/wallet/dto/TransactionResponse.java
-- src/main/java/com/pict/wallet/exception/ApiExceptionHandler.java
+## Verification
 
-His prepared package also contains docs/API.md and scripts/demo_api.py. Keep the original package paths when uploading; do not add an outer ZIP or project-files directory.
-
-Until those classes are merged, compilation fails with missing WalletResponse and TransactionResponse symbols. GitHub Actions can therefore be red on this incomplete integration branch. Tests have not been disabled or skipped to hide that missing module.
-
-## Verification and next steps
-
-The previous complete local preview, with Ayaan's prepared files supplied only in a temporary checkout, passed all 19 tests and packaging. That result does not mean the currently pushed integration branch is complete.
-
-Once Ayaan has pushed his actual module:
+The actual assembled checkout passed a clean build on Java 17.0.21 and Maven 3.9.11:
 
 ```sh
-git fetch origin
-git switch integration/wallet-assembly
-git pull --ff-only
-git merge --no-ff origin/23210_ayaan_backend
-./mvnw verify
+./mvnw clean verify
 ```
 
-Use JDK 17 or newer. On Windows use mvnw.cmd. Resolve any new changes introduced after this snapshot, confirm all 19 tests pass and inspect GitHub Actions before merging the complete integration branch into main. Keep normal merge history so each member's original commits remain visible.
+- WalletServiceTest: 12 tests passed.
+- WalletHttpTest: 7 tests passed.
+- Total: 19 tests, zero failures, zero errors, zero skipped.
+- Spring Boot packaged target/digital-wallet-1.0.0.jar successfully.
+
+The test run includes real HTTP requests, session and CSRF checks, balance rules, rollback and simultaneous operations. Tests use an in-memory database. No tests were disabled or skipped to complete the integration.
+
+GitHub Actions runs Maven verification on pushes and pull requests. Its status for each pushed revision is available in the repository's Actions tab. Preserve normal merge history when promoting this assembly into main so each member's original commits remain visible.
