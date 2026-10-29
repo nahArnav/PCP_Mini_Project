@@ -1,0 +1,12 @@
+target/
+data/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+*.log
+.env
+delivery/
+__pycache__/
+*.pyc
+output/
