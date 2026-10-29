@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            My wallet | Pocket Wallet
+        </title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="nav-content">
+                <a class="brand" th:href="@{/wallet}">
+                    <span class="brand-icon">
+                        P
+                    </span>
+                    Pocket Wallet
+                </a>
+                <div class="nav-right">
+                    <span class="demo-badge">
+                        CLASSROOM DEMO
+                    </span>
+                    <form th:action="@{/logout}" method="post">
+                        <button class="signout" type="submit">
+                            Sign out
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <main class="dashboard">
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow muted">
+                        YOUR EVERYDAY WALLET
+                    </span>
+                    <h1>Hello, <span th:text="${wallet.name}">friend</span>.</h1>
+                    <p class="muted">
+                        A clear view of your balance and activity.
+                    </p>
+                </div>
+                <div class="account-email" th:text="${wallet.email}">
+                </div>
+            </div>
+            <div th:if="${success}" class="alert success" role="status" th:text="${success}">
+            </div>
+            <div th:if="${error}" class="alert error" role="alert" th:text="${error}">
+            </div>
+            <div class="wallet-grid">
+                <section class="balance-card">
+                    <span class="eyebrow">
+                        AVAILABLE BALANCE
+                    </span>
+                    <div class="balance">
+                        <span class="currency">
+                            INR
+                        </span>
+                        <span th:text="${#numbers.formatDecimal(wallet.balance, 1, 'COMMA', 2, 'POINT')}">
+                            0.00
+                        </span>
+                    </div>
+                    <span class="balance-divider">
+                    </span>
+                    <div class="balance-bottom">
+                        <div>
+                            <span class="small-label">
+                                ACCOUNT HOLDER
+                            </span>
+                            <strong th:text="${wallet.name}">
+                            </strong>
+                        </div>
+                        <span class="wallet-label">
+                            Pocket / Demo
+                        </span>
+                    </div>
+                    <p>
+                        Simulated funds &middot; Balance limit INR 10,00,000
+                    </p>
+                </section>
+                <section class="action-card">
+                    <span class="step">
+                        01 / TOP UP
+                    </span>
+                    <h2>
+                        Add money
+                    </h2>
+                    <p class="muted">
+                        Add simulated funds to your wallet.
+                    </p>
+                    <form th:action="@{/wallet/add-money}" method="post">
+                        <label for="add-amount">
+                            Amount in INR
+                        </label>
+                        <input id="add-amount" name="amount" type="number" min="0.01" max="100000" step="0.01" placeholder="500.00" required>
+                        <button type="submit" class="secondary">
+                            Add demo money
+                            <span aria-hidden="true">
+                                +
+                            </span>
+                        </button>
+                    </form>
+                </section>
+                <section class="action-card">
+                    <span class="step">
+                        02 / SEND
+                    </span>
+                    <h2>
+                        Transfer funds
+                    </h2>
+                    <form th:action="@{/wallet/transfer}" method="post">
+                        <label for="recipient">
+                            Recipient email
+                        </label>
+                        <input id="recipient" name="recipientEmail" type="email" maxlength="120" placeholder="friend@example.com" required>
+                        <label for="transfer-amount">
+                            Amount in INR
+                        </label>
+                        <input id="transfer-amount" name="amount" type="number" min="0.01" max="100000" step="0.01" placeholder="100.00" required>
+                        <button type="submit">
+                            Send money
+                            <span aria-hidden="true">
+                                &rarr;
+                            </span>
+                        </button>
+                    </form>
+                </section>
+            </div>
+            <section class="history-section">
+                <div class="section-heading">
+                    <div>
+                        <h2>
+                            Transaction history
+                        </h2>
+                        <p class="muted">
+                            Every successful payment and failed business attempt.
+                        </p>
+                    </div>
+                    <span class="history-count" th:text="${#lists.size(transactions)} + ' records'">
+                    </span>
+                </div>
+                <div class="empty-state" th:if="${#lists.isEmpty(transactions)}">
+                    <h3>
+                        Your wallet starts here
+                    </h3>
+                    <p>
+                        Add demo money to create your first transaction.
+                    </p>
+                </div>
+                <div class="table-scroll" th:unless="${#lists.isEmpty(transactions)}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Transaction
+                                </th>
+                                <th>
+                                    Details
+                                </th>
+                                <th>
+                                    Date &amp; time (IST)
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th class="amount-column">
+                                    Amount (INR)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="tx : ${transactions}">
+                                <td>
+                                    <strong th:text="${tx.type.name() == 'ADD_MONEY' ? 'Money added' : (tx.initiatorEmail == wallet.email ? 'Money sent' : 'Money received')}">
+                                    </strong>
+                                    <small th:text="'TX-' + ${tx.id}">
+                                    </small>
+                                </td>
+                                <td>
+                                    <span th:text="${tx.type.name() == 'ADD_MONEY' ? 'Demo top-up' : (tx.initiatorEmail == wallet.email ? tx.recipientEmail : tx.initiatorEmail)}">
+                                    </span>
+                                    <small th:text="${tx.message}">
+                                    </small>
+                                </td>
+                                <td class="date-cell" th:text="${#temporals.format(tx.createdAt.atZone(displayZone), 'dd MMM yyyy, HH:mm:ss')}">
+                                </td>
+                                <td>
+                                    <span class="status" th:classappend="${tx.status.name() == 'SUCCESS' ? 'status-success' : 'status-failed'}" th:text="${tx.status}">
+                                    </span>
+                                </td>
+                                <td class="amount-column" th:classappend="${tx.status.name() == 'FAILED' ? 'muted' : (tx.type.name() == 'ADD_MONEY' or tx.initiatorEmail != wallet.email ? 'credit' : '')}">
+                                    <strong th:text="${(tx.status.name() == 'FAILED' ? '' : (tx.type.name() == 'ADD_MONEY' or tx.initiatorEmail != wallet.email ? '+' : '-')) + #numbers.formatDecimal(tx.amount, 1, 'COMMA', 2, 'POINT')}">
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <footer>
+                Java &amp; Spring Boot mini project
+                <span>
+                    Up to INR 1,00,000 per operation &middot; No real payments
+                </span>
+            </footer>
+        </main>
+    </body>
+</html>

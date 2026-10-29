@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            Sign in | Pocket Wallet
+        </title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body class="auth-page">
+        <main class="auth-layout">
+            <section class="auth-intro">
+                <a class="brand" th:href="@{/}">
+                    <span class="brand-icon">
+                        P
+                    </span>
+                    Pocket Wallet
+                </a>
+                <span class="eyebrow">
+                    JAVA MINI PROJECT
+                </span>
+                <h1>
+                    Your money.
+                    <br>
+                    A little simpler.
+                </h1>
+                <p>
+                    Add demo money, send it to a friend, and see exactly where it went.
+                </p>
+                <div class="intro-detail">
+                    <span class="dot">
+                    </span>
+                    Built with Java and Spring Boot
+                </div>
+                <p class="demo-note">
+                    A classroom wallet with simulated funds. No real payments.
+                </p>
+            </section>
+            <section class="auth-card">
+                <span class="eyebrow muted">
+                    WELCOME BACK
+                </span>
+                <h2>
+                    Sign in to your wallet
+                </h2>
+                <p class="muted">
+                    Use the email you registered with.
+                </p>
+                <div th:if="${param.error}" class="alert error" role="alert">
+                    Invalid email or password.
+                </div>
+                <div th:if="${param.registered}" class="alert success" role="status">
+                    Account created. You can sign in now.
+                </div>
+                <div th:if="${param.logout}" class="alert success" role="status">
+                    You have signed out.
+                </div>
+                <form th:action="@{/login}" method="post">
+                    <label for="email">
+                        Email address
+                    </label>
+                    <input id="email" name="email" type="email" placeholder="you@example.com" maxlength="120" autocomplete="username" required>
+                    <label for="password">
+                        Password
+                    </label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required>
+                    <button type="submit">
+                        Sign in
+                        <span aria-hidden="true">
+                            &rarr;
+                        </span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    New here?
+                    <a th:href="@{/register}">
+                        Create an account
+                    </a>
+                </p>
+            </section>
+        </main>
+    </body>
+</html>
